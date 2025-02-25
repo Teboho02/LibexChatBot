@@ -12,14 +12,13 @@ const cors = require('cors');
 
 require("dotenv").config({ path: "../.env" });
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: '*'
 }));
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
-// Read the file about the information about libex
 const filePath = "./libex.txt";
 const fileContent = fs.readFileSync(filePath, "utf8");
 
@@ -27,22 +26,25 @@ async function generateText(question) {
     const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
     const generationConfig = {
-        temperature: 1.5,
+        temperature: 0.9,  // Corrected to valid value
         topP: 0.95,
         topK: 40,
         maxOutputTokens: 8192,
         responseMimeType: "text/plain",
     };
 
-    const prompt = `You are an AI assistant that only knows the following information:
-    """${fileContent}"""
-    Answer based on this document You may paraphrase, explain in different terms. If the answer is not found, say "I don't have that information."
-    Question: ${question}`;
-
-    // Add retry logic
-    let maxRetries = 5;
-    let retryDelay = 2000; // Start with 2 seconds delay
+    const prompt = `You are an AI assistant that exclusively uses the following information to answer questions. If the answer isn't found here, respond with "I don't have that information."
     
+    Document Content:
+    """${fileContent}"""
+    
+    Question: ${question}
+    
+    Answer:`;
+
+    let maxRetries = 5;
+    let retryDelay = 2000;
+
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
             const result = await model.generateContent({
@@ -52,56 +54,47 @@ async function generateText(question) {
             const response = await result.response;
             return response.text();
         } catch (error) {
-            console.log(`Attempt ${attempt} failed: ${error.message}`);
-            
-            // If this is the last attempt, throw the error
+            console.error(`Attempt ${attempt} failed:`, error);
+
             if (attempt === maxRetries) {
-                throw error;
+                throw new Error('Max retries reached: ' + error.message);
             }
-            
-            // If it's a 503 error, wait and retry with exponential backoff
-            if (error.status === 503) {
-                console.log(`Retrying in ${retryDelay/1000} seconds...`);
+
+            // Check for 429 (Too Many Requests) or 503 (Service Unavailable)
+            if (error.response && [429, 503].includes(error.response.status)) {
+                console.log(`Retrying in ${retryDelay / 1000} seconds...`);
                 await new Promise(resolve => setTimeout(resolve, retryDelay));
-                retryDelay *= 1; // Exponential backoff
+                retryDelay *= 2;  // Correct exponential backoff
             } else {
-                // For other errors, just throw immediately
                 throw error;
             }
         }
     }
 }
 
-app.get('/generate', async (req, res) => {
-    try {
-        const response = await generateText("where can I find the information about libex");
-        res.send(response);
-    } catch (error) {
-        console.error("Error in GET /generate:", error);
-        res.status(500).send({ error: "Failed to generate response", details: error.message });
-    }
-});
-
 app.post('/generate', async (req, res) => {
     try {
-        const question = req.body.question;
-        console.log("Received question:", question);
-
-        const response = await generateText(question);
-        const answer = {
-            answer: response
+        const { question } = req.body;
+        if (!question) {
+            return res.status(400).send({ error: "Question is required" });
         }
-        res.send(answer);
+
+        console.log("Received question:", question);
+        const response = await generateText(question);
+        res.send({ answer: response });
     } catch (error) {
         console.error("Error in POST /generate:", error);
-        res.status(500).send({ error: "Failed to generate response", details: error.message });
+        res.status(500).send({ 
+            error: "Failed to generate response", 
+            details: error.message 
+        });
     }
 });
 
 app.listen(PORT, (error) => {
-    if(!error)
-        console.log("Server is Successfully Running, " +
-                   "and App is listening on port " + PORT)
-    else 
-        console.log("Error occurred, server can't start", error);
+    if (!error) {
+        console.log(`Server running on port ${PORT}`);
+    } else {
+        console.error("Server startup error:", error);
+    }
 });
