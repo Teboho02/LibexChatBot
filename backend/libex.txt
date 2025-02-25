@@ -37,3 +37,19 @@ Firstly, one does not invest in NFTs as NFTs do not fit any specific asset class
 What are the differences between NFTs & Crypto?
 
 NFTs are a new form of digital asset that represents ownership or tokenizes an asset. NFTs are non-fungible, meaning that each one is distinctive and are traded on marketplaces through the blockchain. On the other hand, cryptocurrencies are these digital economic instruments that one uses to buy these assets. They also allow all sorts of transactions, and they can be easily traded with other currencies.
+
+Where do you buy NFTs?
+
+You can purchase Non-Fungible Tokens (NFTs) on the Libex NFT Marketplace, which is a blockchain-based marketplace that has been created with the intention of supporting African creatives and entrepreneurs. Libex provides a space for African creatives, investors, and tech enthusiasts to buy, sell, and trade their creations. NFTs are quickly becoming the new digital asset class and are constantly growing in popularity, with an ever-growing market of rare NFTs. Libex hosts this ever-growing market by having NFTs from some of Africa's best designers, international NFTs that have had success on the likes of OpenSea and Crypto.com, and NFTs with unique and rare utilities. We have an NFT for every interest and hobby!
+
+What are the costs of minting and listing an NFT on the Libex NFT Marketplace?
+
+Minting is the process of authenticating information, creating a new block, and recording that information onto the blockchain. This process usually comes with a fee (gas fee). However, some marketplaces charge exorbitant fees for this service. Some marketplaces charge over 1 ETH to mint a new project. That is a significant amount of money to pay for such an essential service! Libex wanted to improve financial inclusion around the world, so to promote this goal, we made it absolutely free for any creator to list their products on the Libex exchange. The only cost is a small transaction fee of 3%.
+
+Contact Us
+support@libex.ai
+
+Location
+WITS Innovation Hub,
+Tshimologong Precinct,
+41 Juta St, Braamfontein, Johannesburg, 2017

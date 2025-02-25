@@ -22,25 +22,26 @@
             var input = document.querySelector('.input-style');
             var button = document.querySelector('button');
             button.addEventListener('click', async function () {
-                var value = input.value;
-                console.log(value);
-
-                const url = 'http://localhost:5000/generate?question=' + value;
-                try {
-                    const response = await fetch(url);
-                    if (!response.ok) {
-                        throw new Error(`Response status: ${response.status}`);
-                    }
-
-                    const json = await response.json();
-                    console.log(json);
-                } catch (error) {
-                    console.error(error.message);
+            const value = 'what is libex'; 
+            const url = 'http://localhost:5000/generate';
+            try {
+                const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ question: value })
+                });
+                if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
                 }
 
-
+                const json = await response.json();
+                console.log(json);
+            } catch (error) {
+                console.error(error.message);
+            }
             });
-
         </script>
 
     </div>
