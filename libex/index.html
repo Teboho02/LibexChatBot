@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+</head>
+
+<body>
+
+
+    <div class="main">
+        <input placeholder="Ask libex AI" class="input-style" type="text">
+        <button>Ask</button>
+        <div class="output" id="answer"></div>
+
+
+        <script>
+            var input = document.querySelector('.input-style');
+            var button = document.querySelector('button');
+            button.addEventListener('click', async function () {
+                var value = input.value;
+                console.log(value);
+
+                const url = 'http://localhost:5000/generate?question=' + value;
+                try {
+                    const response = await fetch(url);
+                    if (!response.ok) {
+                        throw new Error(`Response status: ${response.status}`);
+                    }
+
+                    const json = await response.json();
+                    console.log(json);
+                } catch (error) {
+                    console.error(error.message);
+                }
+
+
+            });
+
+        </script>
+
+    </div>
+
+</body>
+
+</html>
