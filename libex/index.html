@@ -15,7 +15,9 @@
     <div class="main">
         <input placeholder="Ask libex AI" class="input-style" type="text">
         <button>Ask</button>
-        <div class="output" id="answer"></div>
+        <div class="output" id="answer" style="display: block;">
+            <p>Answer</p>
+        </div>
 
 
         <script>
@@ -23,7 +25,7 @@
             var button = document.querySelector('button');
             button.addEventListener('click', async function () {
             const value = 'what is libex'; 
-            const url = 'http://localhost:5000/generate';
+            const url = 'http://localhost:3000/generate';
             try {
                 const response = await fetch(url, {
                 method: 'POST',

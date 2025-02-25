@@ -9,11 +9,16 @@ const {
 const fs = require('fs');
 const app = express();
 const PORT = 3000;
+const cors = require('cors');
 
 
 require("dotenv").config({ path: "../.env" });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true })); 
+app.use(cors({
+    origin: '*'
+  }));
+  
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const fileManager = new GoogleAIFileManager(process.env.GOOGLE_API_KEY);
@@ -95,7 +100,10 @@ app.post('/generate', async (req, res) => {
     console.log(question);
 
      const response = await generateText(question);
-     res.send(response);
+     const answer = {
+        answer: response
+     }
+     res.send(answer);
  });
  
  
