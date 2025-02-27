@@ -52,14 +52,14 @@ async function generateText(question) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const generationConfig = {
-        temperature: 0.7,  
+        temperature: 1,  
         topP: 0.95,
         topK: 40,
         maxOutputTokens: 8192,
         responseMimeType: "text/plain",
     };
 
-    const prompt = `You are Libex AI, a helpful assistant that exclusively uses the following information to answer questions. If the answer isn't found in this document, politely respond with "I don't have that information in my knowledge base, but I'd be happy to help with something else about Libex."
+    const prompt = `You are Libex AI, a helpful assistant that exclusively uses the following information to answer questions. If the answer isn't found in this document, politely respond with "I don't have that information in my knowledge base, In a case where the question is general and could be found on the internet, use it, such as how can I get there, but I'd be happy to help with something else about Libex."
     
     Document Content:
     """${fileContent}"""
