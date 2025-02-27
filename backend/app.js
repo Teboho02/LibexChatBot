@@ -18,7 +18,6 @@ app.use(cors({
     origin: '*'
 }));
 
-// Serve static files from the libex folder
 const libexPath = path.resolve(__dirname, '../libex');
 app.use(express.static(libexPath));
 console.log(`Serving static files from: ${libexPath}`);
