@@ -38,7 +38,7 @@ try {
     fileContent = "Knowledge base file not found or could not be read.";
 }
 
-async function generateText(question) {
+async function generateText(question, messages) {
     if (responseCache.has(question)) {
         const cachedResponse = responseCache.get(question);
         if (Date.now() - cachedResponse.timestamp < CACHE_EXPIRY) {
@@ -66,7 +66,7 @@ async function generateText(question) {
     
     Question: ${question}
     
-    Answer in a helpful tone:`;
+    Answer in a helpful tone: take note of the previous messages ${messages} and respond using context where appropriate.`;
 
     let maxRetries = 5;
     let retryDelay = 2000;
@@ -107,12 +107,15 @@ async function generateText(question) {
 app.post('/generate', async (req, res) => {
     try {
         const { question } = req.body;
+        const {messages} = req.body;
+
+
         if (!question) {
             return res.status(400).send({ error: "Question is required" });
         }
 
         console.log("Received question:", question);
-        const response = await generateText(question);
+        const response = await generateText(question, messages);
         res.send({ answer: response });
     } catch (error) {
         console.error("Error in POST /generate:", error);

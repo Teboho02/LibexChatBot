@@ -40,6 +40,8 @@
         const questionInput = document.getElementById('questionInput');
         const sendButton = document.getElementById('sendButton');
         const chatMessages = document.getElementById('chatMessages');
+        let messages = [];
+
         
         let isProcessing = false;
         
@@ -53,6 +55,41 @@
                 minute: '2-digit',
                 hour12: true 
             });
+        }
+
+        function savePreviousMessges(){
+
+            /*schema
+            {
+                "messages": [
+                    {
+                        "content": "Hello! I'm the Libex AI Assistant. Ask me anything about Libex and I'll help you.",
+                        "isUser": false
+                    },
+                    {
+                        "content": "What is Libex?",
+                        "isUser": true
+                    },
+                    {
+                        "content": "Libex is a platform that helps you to create and manage your own library.",
+                        "isUser": false
+                    }
+                ]
+            }
+
+            */
+
+            let messageDivs = document.querySelectorAll('.message');
+            messageDivs.forEach(messageDiv => {
+                let messageContent = messageDiv.querySelector('.message-content').textContent;
+                let isUser = messageDiv.classList.contains('user-message');
+                messages.push({ content: messageContent, isUser });
+            });
+
+            localStorage.setItem('libex-messages', JSON.stringify({ messages }));
+
+
+
         }
         
 
@@ -71,6 +108,7 @@
             chatMessages.appendChild(messageDiv);
             
             chatMessages.scrollTop = chatMessages.scrollHeight;
+            savePreviousMessges();
             
             return messageDiv;
         }
@@ -102,7 +140,7 @@
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ question })
+                    body: JSON.stringify({ question , messages})
                 });
                 
 
