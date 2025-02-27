@@ -55,7 +55,7 @@ body {
     border-bottom: 2px solid var(--border-color);
     display: flex;
     flex-direction: column;
-    color: #e9ecef;
+    color: #e9ecee;
     align-items: center;
     gap: 10px;
 }

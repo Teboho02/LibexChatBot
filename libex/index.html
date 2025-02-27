@@ -153,7 +153,6 @@
             // Add user message
             addMessage(question, true);
             
-            // Clear input
             questionInput.value = '';
             
 
@@ -182,7 +181,6 @@
                 
                 const data = await response.json();
                 
-                // Hide loading indicator before adding the response message
                 hideLoadingIndicator();
                 
                 addMessage(data.answer || "Sorry, I couldn't process your request.");
@@ -190,12 +188,10 @@
             } catch (error) {
                 console.error('Error:', error);
                 
-                // Hide loading indicator before adding the error message
                 hideLoadingIndicator();
                 
                 addMessage("I'm sorry, I'm having trouble connecting right now. Please try again later.");
             } finally {
-                // Reset processing flag
                 isProcessing = false;
                 sendButton.disabled = false;
                 questionInput.focus();
