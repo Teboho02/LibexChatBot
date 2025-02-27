@@ -14,7 +14,9 @@
     <div class="container">
         <div class="chat-container">
             <div class="chat-header">
-                <h2>Ask anything about Libex</h2>
+                <img src="./public/libexlogo.png" alt="Libex Logo" class="chatbot-logo">
+                <h2 class="header-text">Ask anything about Libex</h2>
+
             </div>
             
             <div class="chat-messages" id="chatMessages">
@@ -92,6 +94,32 @@
 
         }
         
+        function showLoadingIndicator() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'typing-indicator';
+            loadingDiv.id = 'loadingIndicator';
+            
+            const dotsDiv = document.createElement('div');
+            dotsDiv.className = 'typing-dots';
+            
+            // Add three dots for the typing animation
+            for (let i = 0; i < 3; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'typing-dot';
+                dotsDiv.appendChild(dot);
+            }
+            
+            loadingDiv.appendChild(dotsDiv);
+            chatMessages.appendChild(loadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function hideLoadingIndicator() {
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            if (loadingIndicator) {
+                loadingIndicator.remove();
+            }
+        }
 
         
         function addMessage(content, isUser = false) {
@@ -134,6 +162,9 @@
             isProcessing = true;
             sendButton.disabled = true;
             
+            // Show loading indicator
+            showLoadingIndicator();
+            
             try {
                 const response = await fetch('/generate', {
                     method: 'POST',
@@ -151,10 +182,16 @@
                 
                 const data = await response.json();
                 
+                // Hide loading indicator before adding the response message
+                hideLoadingIndicator();
+                
                 addMessage(data.answer || "Sorry, I couldn't process your request.");
                 
             } catch (error) {
                 console.error('Error:', error);
+                
+                // Hide loading indicator before adding the error message
+                hideLoadingIndicator();
                 
                 addMessage("I'm sorry, I'm having trouble connecting right now. Please try again later.");
             } finally {
