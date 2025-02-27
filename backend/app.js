@@ -6,41 +6,68 @@ const {
 } = require("@google/generative-ai");
 
 const fs = require('fs');
+const path = require('path');
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
     origin: '*'
 }));
 
+// Serve static files from the libex folder
+const libexPath = path.resolve(__dirname, '../libex');
+app.use(express.static(libexPath));
+console.log(`Serving static files from: ${libexPath}`);
+
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
-const filePath = "./libex.txt";
-const fileContent = fs.readFileSync(filePath, "utf8");
+const responseCache = new Map();
+const CACHE_EXPIRY = 1000 * 60 * 60; 
+
+const filePath = path.resolve(__dirname, "./libex.txt");
+let fileContent;
+
+try {
+    fileContent = fs.readFileSync(filePath, "utf8");
+    console.log("Libex knowledge base loaded successfully");
+} catch (error) {
+    console.error("Error loading knowledge base:", error);
+    fileContent = "Knowledge base file not found or could not be read.";
+}
 
 async function generateText(question) {
-    const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+    if (responseCache.has(question)) {
+        const cachedResponse = responseCache.get(question);
+        if (Date.now() - cachedResponse.timestamp < CACHE_EXPIRY) {
+            console.log("Cache hit for question:", question);
+            return cachedResponse.text;
+        } else {
+            responseCache.delete(question);
+        }
+    }
+
+    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const generationConfig = {
-        temperature: 0.9,  // Corrected to valid value
+        temperature: 0.7,  
         topP: 0.95,
         topK: 40,
         maxOutputTokens: 8192,
         responseMimeType: "text/plain",
     };
 
-    const prompt = `You are an AI assistant that exclusively uses the following information to answer questions. If the answer isn't found here, respond with "I don't have that information."
+    const prompt = `You are Libex AI, a helpful assistant that exclusively uses the following information to answer questions. If the answer isn't found in this document, politely respond with "I don't have that information in my knowledge base, but I'd be happy to help with something else about Libex."
     
     Document Content:
     """${fileContent}"""
     
     Question: ${question}
     
-    Answer:`;
+    Answer in a helpful tone:`;
 
     let maxRetries = 5;
     let retryDelay = 2000;
@@ -52,7 +79,14 @@ async function generateText(question) {
                 generationConfig
             });
             const response = await result.response;
-            return response.text();
+            const responseText = response.text();
+            
+            responseCache.set(question, {
+                text: responseText,
+                timestamp: Date.now()
+            });
+            
+            return responseText;
         } catch (error) {
             console.error(`Attempt ${attempt} failed:`, error);
 
@@ -60,11 +94,10 @@ async function generateText(question) {
                 throw new Error('Max retries reached: ' + error.message);
             }
 
-            // Check for 429 (Too Many Requests) or 503 (Service Unavailable)
             if (error.response && [429, 503].includes(error.response.status)) {
                 console.log(`Retrying in ${retryDelay / 1000} seconds...`);
                 await new Promise(resolve => setTimeout(resolve, retryDelay));
-                retryDelay *= 2;  // Correct exponential backoff
+                retryDelay *= 2;  
             } else {
                 throw error;
             }
@@ -91,9 +124,18 @@ app.post('/generate', async (req, res) => {
     }
 });
 
+app.get('/health', (req, res) => {
+    res.status(200).send({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(libexPath, 'index.html'));
+});
+
 app.listen(PORT, (error) => {
     if (!error) {
         console.log(`Server running on port ${PORT}`);
+        console.log(`Visit http://localhost:${PORT} to use Libex AI Assistant`);
     } else {
         console.error("Server startup error:", error);
     }

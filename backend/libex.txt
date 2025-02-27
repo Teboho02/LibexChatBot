@@ -46,6 +46,82 @@ What are the costs of minting and listing an NFT on the Libex NFT Marketplace?
 
 Minting is the process of authenticating information, creating a new block, and recording that information onto the blockchain. This process usually comes with a fee (gas fee). However, some marketplaces charge exorbitant fees for this service. Some marketplaces charge over 1 ETH to mint a new project. That is a significant amount of money to pay for such an essential service! Libex wanted to improve financial inclusion around the world, so to promote this goal, we made it absolutely free for any creator to list their products on the Libex exchange. The only cost is a small transaction fee of 3%.
 
+
+Libex OTC
+
+
+What is The Libex OTC platform?
+The Libex OTC platform is a cryptocurrency exchange platform where you can buy, sell, or trade cryptocurrencies for other digital currency or traditional currency like US dollars or South African Rands. The exchange acts as an intermediary between buyers and sellers, facilitating the exchange of cryptocurrencies. There is a small service fee for the services provided. The platform offers a range of features, including the ability to deposit and withdraw funds, place orders to buy or sell cryptocurrencies, view market data, and access trading tools and charts.
+
+What types of cryptocurrencies can I trade on this platform?
+The platform supports trading of major cryptocurrencies such as Bitcoin, Ethereum, LBX coin, and more. You can find the full list of supported cryptocurrencies on our website.
+
+
+How do I create an account on this platform?
+Creating an account on our platform is quick and easy. Simply visit our website and click on "Sign Up." Fill out the registration form and verify your email address and KYC to complete the process.
+
+
+How do I deposit funds into my account?
+You can deposit funds into your account by transferring cryptocurrencies from your external wallet to your exchange wallet on our platform. We also support deposit via bank transfer from all major South African banks.
+
+
+Is it safe to store my cryptocurrencies on this platform?
+Yes, the safety and security of all users' assets and the platform is a top priority. With the implementation of multiple layers of security measures such as two-factor authentication, rest assured that your funds are in good hands.
+
+
+How do I place a trade on this platform?
+To place a trade on the platform, log in to your account, navigate to the trading page, select the pair you wish to trade, and place a market order.
+
+
+How long does it take to process a withdrawal?
+Withdrawal processing time depends on the blockchain network's current conditions. Generally, cryptocurrency withdrawals are processed within a few hours.
+
+
+Can I trade cryptocurrencies with fiat currency on this platform?
+Yes, we support trading between cryptocurrencies and fiat currency. You can view the available trading pairs on our website.
+
+Libex Quota
+
+
+What is Libex Quota?
+Libex Quota is a digital platform that pairs alternative assets and transformational projects with crowd-based capital. This automated and transparent platform allows companies, investors, and the ordinary person to trade safely and securely.
+
+
+What do we do?
+We fractionalize (tokenize) real-world assets into smaller investable pieces (tokens), using the power of digital technology (blockchain). Investors are then able to diversify their wealth and access opportunities they otherwise would not been able to.
+
+
+What is fractional or tokenized investing?
+Fractional or tokenized investing is a way of digitizing assets and converting them into smaller portions of ownership, which is then safely stored and recorded on the blockchain.
+
+What is fractional or tokenized ownership?
+Fractional or tokenized ownership is digital currency that is represented by a token that is used to facilitate a real-world transaction using smart contracts. These tokens can be traded on the Libex Quota platform.
+
+
+What is a smart contract?
+It is a computer program that automates, executes, controls, and documents events and actions according to the terms and conditions of an agreement.
+
+What is a Security Token Offering (STO)?
+A Security Token Offering (STO) is a public offering in which tokens, also known as security tokens, are bought and sold on the Libex Quota exchange.
+
+Why does Libex Quota use Blockchain?
+Blockchain enables an asset to be easily broken down into smaller units, representing ownership. It further encourages the democratisation of investments in an immutable, transparent, efficient and safe manner.
+
+Is the Libex Quota platform safe?
+Yes! Blockchain guarantees that once you buy tokens representing an asset, no single person, company or agency can erase or change the ownership of your token. It also allows for direct trading between individuals or institutions.
+
+
+What can be tokenized?
+Any assets, financial instruments, funds, and services can be tokenized.
+
+
+Does Libex Quota benefit the asset owner?
+Yes. Tokenization facilitates fractional ownership of an asset. It increases liquidity, enabling fair market pricing, reducing the cost of financing admin., and through its automated process, saves time and money.
+
+Does Libex Quota benefit the investor?
+Yes. Investors can invest smaller amounts of money in an asset or project seamlessly thereby diversifying their portfolio. The platform is transparent allowing investors to see the history of the token. Tokens can be traded 24/7 with minimal hassle and near zero transaction fees.
+
+
 Contact Us
 support@libex.ai
 
