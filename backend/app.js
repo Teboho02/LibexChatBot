@@ -52,25 +52,30 @@ async function generateText(question, messages) {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const generationConfig = {
-        temperature: 1,  
-        topP: 0.95,
-        topK: 40,
-        maxOutputTokens: 8192,
+        temperature: 0.5,  // Lower temperature for more focused responses
+        topP: 0.8,        // Reduced for more deterministic outputs
+        topK: 20,         // Reduced for more focused token selection
+        maxOutputTokens: 1024, // Significantly reduced max output tokens
         responseMimeType: "text/plain",
     };
-
-    const prompt = `You are Libex AI, a helpful assistant that exclusively uses the following information to answer questions. If the answer isn't found in this document, politely respond with "I don't have that information in my knowledge base, In a case where the question is general and could be found on the internet, use it, such as how can I get there, but I'd be happy to help with something else about Libex."
+    // Enhanced prompt for better token efficiency
+    const prompt = `You are Libex AI, a concise assistant focused on blockchain, NFTs, and fintech.
     
-    Document Content:
+    Guidelines:
+    - Keep responses under 100 words
+    - Use simple, direct language
+    - Focus only on essential information
+    - Avoid repetition
+    
+    Context:
     """${fileContent}"""
     
+    Previous: ${JSON.stringify(messages)}
     Question: ${question}
     
-    Answer in a helpful tone: take note of the previous messages ${messages} and respond using context where appropriate.`;
-
+    Provide a brief, focused response.`;
     let maxRetries = 5;
     let retryDelay = 2000;
-
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
         try {
             const result = await model.generateContent({
@@ -88,11 +93,11 @@ async function generateText(question, messages) {
             return responseText;
         } catch (error) {
             console.error(`Attempt ${attempt} failed:`, error);
-
+    
             if (attempt === maxRetries) {
                 throw new Error('Max retries reached: ' + error.message);
             }
-
+    
             if (error.response && [429, 503].includes(error.response.status)) {
                 console.log(`Retrying in ${retryDelay / 1000} seconds...`);
                 await new Promise(resolve => setTimeout(resolve, retryDelay));
