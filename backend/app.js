@@ -135,9 +135,6 @@ app.get('/health', (req, res) => {
     res.status(200).send({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-app.get('/', (req, res) => {
-    res.sendFile(path.join(libexPath, 'index.html'));
-});
 
 app.listen(PORT, (error) => {
     if (!error) {
