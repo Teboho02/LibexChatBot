@@ -11,7 +11,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const cors = require('cors');
 
-require("dotenv").config({ path: path.resolve(__dirname, "../.env") });
+require("dotenv").config({ path: path.resolve(__dirname, ".env") });
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
