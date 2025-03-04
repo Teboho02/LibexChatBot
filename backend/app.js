@@ -132,6 +132,9 @@ app.get('/health', (req, res) => {
     res.status(200).send({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+app.get('/', (req, res) => {
+    res.send("Libex AI Assistant is running.");
+});
 
 app.listen(PORT, (error) => {
     if (!error) {
