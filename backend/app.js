@@ -18,9 +18,6 @@ app.use(cors({
     origin: '*'
 }));
 
-const libexPath = path.resolve(__dirname, '../client/dist');
-app.use(express.static(libexPath));
-console.log(`Serving static files from: ${libexPath}`);
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 
