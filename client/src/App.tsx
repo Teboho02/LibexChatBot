@@ -33,7 +33,7 @@ function App() {
     try {
       setMessages(prev => [...prev, { text: '', isBot: true, isTyping: true }]);
 
-      const response = await axios.post('http://localhost:3000/generate', {
+      const response = await axios.post('https://libex-chat-bot-backend.vercel.app/generate', {
         question: input,
         messages: messages.map(msg => msg.text)
       });
